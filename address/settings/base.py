@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_sso_client',
     'vietnam'
 ]
 
@@ -130,3 +131,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'django_sso_client.authentication.SSOAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+SSO_CLIENT = {
+    "METADATA": env.str("SSO_METADATA", default="http://localhost:8000/.well-known/openid-configuration"),
+    "AUTH_HEADER_TYPES": ["Bearer"],
+    "PUBLIC_KEY": {
+        "CACHE_KEY": "sso:client:public_key",
+        "TTL": 3600
+    },
+    "USER_CACHE_KEY_FORMAT": "sso:client:user:{}"
+}
+
+AUTHLIB_OAUTH_CLIENTS = {
+    'sso': {
+        'client_id': 'client_id',
+        "client_secret": 'client_secret',
+    }
+}
+

@@ -1,0 +1,51 @@
+networks:
+  default:
+    driver: bridge
+
+services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    networks:
+      - default
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DATABASE: postgres
+      POSTGRES_PASSWORD: postgres
+    # ports:
+    #   - 5432:5432
+    networks:
+      - default
+  app:
+    build: 
+      context: ../
+      dockerfile: ./docker/Dockerfile
+      target: production
+    networks:
+      - default
+    ports:
+      - 8000:8000
+    environment:
+      - DEFAULT_CACHE_LOCATION=redis://redis:6379/1
+      - DJANGO_SETTINGS_MODULE=address.settings.production
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+    depends_on:
+      - redis
+      - postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 81:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    networks:
+      - default
+    

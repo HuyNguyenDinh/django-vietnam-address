@@ -8,4 +8,5 @@ router.register('administrative_unit', AdministrativeUnitList, basename='adminis
 router.register('province', ProvinceList, basename='province')
 router.register('district', DistrictList, basename='district')
 router.register('ward', WardList, basename='ward')
+router.register('user-address', UserAddressViewset, basename='user_address')
 urlpatterns = router.urls

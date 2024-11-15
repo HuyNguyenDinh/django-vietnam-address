@@ -2,6 +2,6 @@
 address/settings/local.py
 .env
 venv
+*/migrations/**
 !*/migrations/__init__.py
-*/migrations/*
 db.sqlite3

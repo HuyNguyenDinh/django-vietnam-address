@@ -93,3 +93,13 @@ class Ward(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserAddress(models.Model):
+    username = models.CharField(max_length=40)
+    province = models.ForeignKey(Province, db_column='province_code', on_delete=models.SET_NULL, null=True)
+    district = models.ForeignKey(District, db_column='district_code', on_delete=models.SET_NULL, null=True)
+    ward = models.ForeignKey(Ward, db_column='ward_code', on_delete=models.SET_NULL, null=True)
+    street = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=40, null=True, blank=True)
