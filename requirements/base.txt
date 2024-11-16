@@ -33,3 +33,4 @@ zope.event==5.0
 zope.interface==7.1.1
 Authlib==1.3.2
 git+https://github.com/HuyNguyenDinh/django_sso_client.git
+django-filter==24.3

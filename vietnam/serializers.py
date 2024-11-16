@@ -51,3 +51,15 @@ class UserAddressSerializer(serializers.ModelSerializer):
         validated_data["district"] = ward.district
         validated_data["province"] = ward.district.province
         return await super().acreate(validated_data)
+
+
+class UserAddressDetailSerializer(serializers.ModelSerializer):
+    province = rest_serializers.SerializerMethodField(method_name="get_province")
+    district = DistrictSerializer()
+    ward = WardSerializer()
+    class Meta:
+        model = UserAddress
+        fields = "__all__"
+
+    def get_province(self, obj):
+        return ProvinceSerializer(obj.province).data
